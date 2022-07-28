@@ -1,4 +1,29 @@
+<?php 
+    session_start();
+    $connection=mysqli_connect("localhost","root","","quanlyvanchuyenhk"); 
+    
+    $msg="";
+    if(isset($_POST['submit'])){
+        $username=mysqli_real_escape_string($connection,strtolower($_POST['username']));
+        
+        $password=mysqli_real_escape_string($connection,$_POST['password']); 
+        
+        $login_query="SELECT * FROM `admin` WHERE username='$username' and password='$password'";
+        
+        $login_res=mysqli_query($connection,$login_query);
+        if(mysqli_num_rows($login_res)>0){ 
+            $_SESSION['username']=$username;
+            header('Location:admin.php');
+        } 
+        else{
+             $msg= '<div class="alert alert-danger alert-dismissable" style="margin-top:30px";>
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <strong>Thất bại!</strong> Đăng nhập không thành công!.
+                  </div>';
+        }
+    }
 
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
